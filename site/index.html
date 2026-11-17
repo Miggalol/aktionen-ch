@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aktionen Schweiz</title>
+  <meta name="description" content="Alle aktuellen Aktionen von Migros, Coop, Aldi, Lidl, Denner, Spar und Volg auf einer Seite – sortiert nach dem besten Rabatt.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23d6001c'/%3E%3Ctext x='16' y='22' font-size='16' font-family='Arial' font-weight='700' fill='white' text-anchor='middle'%3E%25%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">%</span>
+        <div>
+          <h1>Aktionen Schweiz</h1>
+          <p class="sub" id="subline">Lade Aktionen …</p>
+        </div>
+      </div>
+      <form class="search" role="search" onsubmit="return false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Produkt suchen, z.B. Kaffee, Butter, Rindshuft …" autocomplete="off" aria-label="Produkt suchen">
+      </form>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="controls" aria-label="Filter">
+      <div class="chips" id="shops" role="group" aria-label="Läden"></div>
+      <div class="selects">
+        <label>Sortieren
+          <select id="sort">
+            <option value="discount">Bester Rabatt</option>
+            <option value="saving">Grösste Ersparnis (CHF)</option>
+            <option value="price">Tiefster Preis</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </label>
+        <label>Mindestens
+          <select id="min">
+            <option value="0">alle Rabatte</option>
+            <option value="20">20 %</option>
+            <option value="30">30 %</option>
+            <option value="40">40 %</option>
+            <option value="50">50 %</option>
+          </select>
+        </label>
+        <button class="btn ghost" id="importBtn" type="button">Import aus Browser</button>
+      </div>
+    </section>
+
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+    <div class="more"><button class="btn" id="moreBtn" type="button" hidden>Mehr anzeigen</button></div>
+    <p class="empty" id="empty" hidden>Keine Aktionen gefunden. Versuche einen anderen Suchbegriff oder weniger Filter.</p>
+  </main>
+
+  <footer class="wrap foot">
+    <div id="status"></div>
+    <p class="fine">Angaben ohne Gewähr. Preise und Verfügbarkeit gelten gemäss den Angaben des jeweiligen Ladens, teils regional unterschiedlich.
+      Migros, Coop und Spar werden über das öffentliche Aktionsportal <a href="https://www.aktionis.ch" rel="noopener" target="_blank">aktionis.ch</a> gelesen,
+      Lidl, Denner und Volg direkt von deren Websites.</p>
+  </footer>
+
+  <dialog id="importDlg">
+    <form method="dialog" class="dlg">
+      <h2>Aktionen aus deinem Browser importieren</h2>
+      <p>Migros, Coop und Aldi blockieren automatische Abrufe. So holst du ihre Aktionen trotzdem hierher – direkt aus deinem eigenen Browser:</p>
+      <ol>
+        <li>Ziehe diesen Knopf in deine Lesezeichenleiste:
+          <a id="bookmarklet" class="bm" href="#" onclick="return false">➕ Aktionen sammeln</a>
+          <span class="hint">(Am Handy: Lesezeichen anlegen und die Adresse durch den kopierten Code ersetzen –
+            <button type="button" class="linkish" id="copyBm">Code kopieren</button>)</span>
+        </li>
+        <li>Öffne die Aktionsseite des Ladens, z.B.
+          <a href="https://www.migros.ch/de/offers/home" target="_blank" rel="noopener">Migros</a>,
+          <a href="https://www.coop.ch/de/aktionen/aktuelle-aktionen/c/m_1011" target="_blank" rel="noopener">Coop</a> oder
+          <a href="https://www.aldi-suisse.ch/de/aktionen-und-angebote.html" target="_blank" rel="noopener">Aldi</a>.</li>
+        <li>Klicke dort auf das Lesezeichen. Die Seite wird kurz durchgescrollt, dann öffnet sich diese Website mit den importierten Aktionen.</li>
+      </ol>
+      <details>
+        <summary>Code manuell einfügen</summary>
+        <p class="hint">Falls kein neues Fenster aufgeht, kopiert das Lesezeichen die Daten in die Zwischenablage. Hier einfügen:</p>
+        <textarea id="pasteBox" rows="4" placeholder='{"v":1,"shop":"aldi", …}'></textarea>
+        <button type="button" class="btn" id="pasteBtn">Einfügen</button>
+      </details>
+      <div id="importList"></div>
+      <div class="dlg-actions"><button class="btn">Schliessen</button></div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="app.js"></script>
+</body>
+</html>
